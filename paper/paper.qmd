@@ -28,12 +28,83 @@ library(palmerpenguins)
 You can and should cross-reference sections and sub-sections. We use @citeR and @rohan.
 
 The remainder of this paper is structured as follows. @sec-data....
+Remembering the Victims: Understanding the Human Toll of Auschwitz
+
+## Introduction
+
+Auschwitz stands as one of the most chilling symbols of the Holocaust, where millions of individuals were subjected to unspeakable horrors. By examining the data on the total number of deportees and victims of Auschwitz, we aim to delve deeper into the human experiences behind the statistics, ensuring that the memory of those who suffered is honored and preserved.
+
+## Humanizing Historical Data
+
+The numbers provided offer a stark reminder of the immense scale of suffering at Auschwitz. With an estimated total of 1.3 million deportees to the camp, it's crucial to recognize that each number represents a human being, each with their own story of resilience and tragedy. For example, the data reveals that approximately 1.1 million individuals perished within the confines of Auschwitz, highlighting the staggering loss of life and the individual tragedies that unfolded within its walls.
+
+## Ethical Considerations
+
+Engaging with data on Auschwitz necessitates careful ethical considerations, given the profound trauma associated with the Holocaust. While quantifying the number of victims provides important historical insights, researchers must approach this data with sensitivity and empathy, mindful of the impact it may have on survivors and their descendants. Preserving the dignity and memory of those who perished must remain paramount in our research endeavors.
+
+## Intersection of Quantitative and Qualitative Approaches
+
+To fully comprehend the human toll of Auschwitz, we must combine quantitative analysis with qualitative research methods. While the numbers convey the scale of the tragedy, qualitative approaches allow us to humanize the data by sharing the stories of survivors and victims. By integrating both approaches, we can gain a more nuanced understanding of the lived experiences of those who endured the horrors of Auschwitz.
+
+## Responsibility of Researchers
+
+Researchers have a responsibility to present historical data accurately and responsibly, particularly when dealing with sensitive topics such as the Holocaust. It's essential to critically engage with the sources of information, recognizing the biases and limitations inherent in the records. Moreover, researchers must amplify the voices of survivors and ensure that their narratives are central to our understanding of Auschwitz and its legacy.
+
+## Public Engagement and Education
+
+Projects that disseminate information about Auschwitz, such as the documentation of deportees and victims, play a crucial role in public education and remembrance. However, it's imperative to approach public engagement with empathy and respect, ensuring that the memory of the victims is honored and that survivors' voices are uplifted. By fostering awareness and empathy, we can ensure that the lessons of Auschwitz are never forgotten.
+
+## Conclusion
+
+As we reflect on the data regarding Auschwitz, we must remember that behind each number lies a human life—a story of suffering, resilience, and loss. By humanizing historical data, engaging in ethical research practices, and prioritizing remembrance and education, we can honor the memory of those who perished at Auschwitz and strive towards a more compassionate and just world.
+
+
 
 
 
 # Data {#sec-data}
 
 Some of our data is of penguins (@fig-bills), from @palmerpenguins.
+
+```{r}
+library(ggplot2)
+
+# Create a data frame from the provided dataset
+data <- data.frame(
+  Nationality_Category = c("Jews", "Poles", "Other groups", "Roma (Gypsies)", "Soviet POWs"),
+  Number_of_Deportees = c(1100000, 140000, 25000, 23000, 15000),
+  Percentage_of_Total_Deportees = c(85, 10.8, 1.9, 1.6, 1.2),
+  Number_of_Victims = c(1000000, 70000, 12000, 21000, 14000),
+  Percentage_of_Murdered = c(90, 46, 48, 91.3, 93),
+  Percentage_of_All_Victims = c(91, 5.8, 1, 1.7, 1.3)
+)
+
+# Plot 1: Nationality/Category vs. Number of Deportees and Number of Victims
+ggplot(data, aes(x = Nationality_Category)) +
+  geom_bar(aes(y = Number_of_Deportees, fill = "Number of Deportees"), stat = "identity") +
+  geom_bar(aes(y = Number_of_Victims, fill = "Number of Victims"), stat = "identity") +
+  ylab("Count") +
+  ggtitle("Number of Deportees and Victims by Nationality/Category") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_fill_manual(values = c("Number of Deportees" = "blue", "Number of Victims" = "red"), 
+                    guide = guide_legend(title = "Category"))
+
+# Plot 2: Nationality/Category vs. Percentage of Murdered within the Category/Nationality
+ggplot(data, aes(x = Nationality_Category, y = Percentage_of_Murdered)) +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  ylab("Percentage") +
+  ggtitle("Percentage of Murdered within Nationality/Category") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+# Plot 3: Nationality/Category vs. Percentage of All Victims
+ggplot(data, aes(x = Nationality_Category, y = Percentage_of_All_Victims)) +
+  geom_bar(stat = "identity", fill = "lightgreen") +
+  ylab("Percentage") +
+  ggtitle("Percentage of All Victims by Nationality/Category") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+
 
 ```{r}
 #| label: fig-bills
