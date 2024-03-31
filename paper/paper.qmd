@@ -1,13 +1,10 @@
 ---
-title: "My title"
-subtitle: "My subtitle if needed"
+title: "Remembering the Victims: Understanding the Human Toll of Auschwitz through Interactive Data Visualization"
 author: 
-  - First author
-  - Another author
-thanks: "Code and data are available at: LINK."
+  - Ping-Jen (Emily) Su
+thanks: "Code and data are available at: https://github.com/emisu36/Holocaust-Victims-shiny."
 date: today
 date-format: long
-abstract: "First sentence. Second sentence. Third sentence. Fourth sentence."
 format: pdf
 number-sections: true
 bibliography: references.bib
@@ -19,22 +16,92 @@ bibliography: references.bib
 #| message: false
 
 library(tidyverse)
-library(palmerpenguins)
-```
+library(rstanarm)
 
+```
 
 # Introduction
 
-You can and should cross-reference sections and sub-sections. We use @citeR and @rohan.
+Auschwitz stands as one of the most chilling symbols of the Holocaust, where millions of individuals were subjected to unspeakable horrors. By examining the data on the total number of deportees and victims of Auschwitz, we aim to delve deeper into the human experiences behind the statistics, ensuring that the memory of those who suffered is honored and preserved. The paper was don using @citeR, @rohan, and @rstanarm.
+Link to shiny app: https://ddmje2-emily-su.shinyapps.io/holocaust/.
 
-The remainder of this paper is structured as follows. @sec-data....
-Remembering the Victims: Understanding the Human Toll of Auschwitz
 
-## Introduction
+# Data {#sec-data}
 
-Auschwitz stands as one of the most chilling symbols of the Holocaust, where millions of individuals were subjected to unspeakable horrors. By examining the data on the total number of deportees and victims of Auschwitz, we aim to delve deeper into the human experiences behind the statistics, ensuring that the memory of those who suffered is honored and preserved.
+The data used in this analysis provides insights into the ethnic origins and number of Holocaust victims killed at Auschwitz concentration camp and is obtained from @Liberation_Auschwitz_2015. The dataset includes information on the nationality/category of victims, the total number of deportees, the percentage of deported individuals, the number of victims, the percentage of murdered individuals within each category, and the percentage of all victims by nationality/category.
 
-## Humanizing Historical Data
+The dataset provides a comprehensive overview of the demographic composition of victims at Auschwitz, allowing for a analysis of the human toll of the Holocaust. This data serves as the foundation for creating interactive visualizations using the Shiny framework, facilitating a user-friendly exploration of the statistics and trends associated with Auschwitz victims' ethnic origins and numbers.
+
+```{r}
+#| echo: false
+
+library(ggplot2)
+
+# Create a data frame from the provided dataset
+data <- data.frame(
+  Nationality_Category = c("Jews", "Poles", "Other groups", "Roma (Gypsies)", "Soviet POWs"),
+  Number_of_Deportees = c(1100000, 140000, 25000, 23000, 15000),
+  Percentage_of_Total_Deportees = c(85, 10.8, 1.9, 1.6, 1.2),
+  Number_of_Victims = c(1000000, 70000, 12000, 21000, 14000),
+  Percentage_of_Murdered = c(90, 46, 48, 91.3, 93),
+  Percentage_of_All_Victims = c(91, 5.8, 1, 1.7, 1.3)
+)
+
+```
+
+With the tests of different models as shown in @fig-deportees , @fig-perc-murdered , and @fig-nat-cat . We have created the shiny app on this website using shinyapp.io [shiny app here](https://ddmje2-emily-su.shinyapps.io/holocaust/).
+
+```{r}
+#| label: fig-deportees
+#| fig-cap: Nationality/Category vs. Number of Deportees and Number of Victims
+#| echo: false
+# Plot 1: Nationality/Category vs. Number of Deportees and Number of Victims
+ggplot(data, aes(x = Nationality_Category)) +
+  geom_bar(aes(y = Number_of_Deportees, fill = "Number of Deportees"), stat = "identity") +
+  geom_bar(aes(y = Number_of_Victims, fill = "Number of Victims"), stat = "identity") +
+  ylab("Count") +
+  ggtitle("Number of Deportees and Victims by Nationality/Category") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_fill_manual(values = c("Number of Deportees" = "blue", "Number of Victims" = "red"), 
+                    guide = guide_legend(title = "Category"))
+```
+
+
+```{r}
+#| label: fig-perc-murdered
+#| fig-cap: Nationality/Category vs. Percentage of Murdered within the Category/Nationality
+#| echo: false
+
+# Plot 2: Nationality/Category vs. Percentage of Murdered within the Category/Nationality
+ggplot(data, aes(x = Nationality_Category, y = Percentage_of_Murdered)) +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  ylab("Percentage") +
+  ggtitle("Percentage of Murdered within Nationality/Category") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+
+
+```{r}
+#| label: fig-nat-cat
+#| fig-cap: Nationality/Category vs. Percentage of All Victims
+#| echo: false
+
+# Plot 3: Nationality/Category vs. Percentage of All Victims
+ggplot(data, aes(x = Nationality_Category, y = Percentage_of_All_Victims)) +
+  geom_bar(stat = "identity", fill = "lightgreen") +
+  ylab("Percentage") +
+  ggtitle("Percentage of All Victims by Nationality/Category") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+\newpage
+
+# Discussion
+
+After reading the paper from @Bouie_2022 the following discussions were looked into to relate with the victims of Auschwitz.
+
+## Humanizing Historical Data {#sec-first-point}
 
 The numbers provided offer a stark reminder of the immense scale of suffering at Auschwitz. With an estimated total of 1.3 million deportees to the camp, it's crucial to recognize that each number represents a human being, each with their own story of resilience and tragedy. For example, the data reveals that approximately 1.1 million individuals perished within the confines of Auschwitz, highlighting the staggering loss of life and the individual tragedies that unfolded within its walls.
 
@@ -58,230 +125,7 @@ Projects that disseminate information about Auschwitz, such as the documentation
 
 As we reflect on the data regarding Auschwitz, we must remember that behind each number lies a human life—a story of suffering, resilience, and loss. By humanizing historical data, engaging in ethical research practices, and prioritizing remembrance and education, we can honor the memory of those who perished at Auschwitz and strive towards a more compassionate and just world.
 
-
-
-
-
-# Data {#sec-data}
-
-Some of our data is of penguins (@fig-bills), from @palmerpenguins.
-
-```{r}
-library(ggplot2)
-
-# Create a data frame from the provided dataset
-data <- data.frame(
-  Nationality_Category = c("Jews", "Poles", "Other groups", "Roma (Gypsies)", "Soviet POWs"),
-  Number_of_Deportees = c(1100000, 140000, 25000, 23000, 15000),
-  Percentage_of_Total_Deportees = c(85, 10.8, 1.9, 1.6, 1.2),
-  Number_of_Victims = c(1000000, 70000, 12000, 21000, 14000),
-  Percentage_of_Murdered = c(90, 46, 48, 91.3, 93),
-  Percentage_of_All_Victims = c(91, 5.8, 1, 1.7, 1.3)
-)
-
-# Plot 1: Nationality/Category vs. Number of Deportees and Number of Victims
-ggplot(data, aes(x = Nationality_Category)) +
-  geom_bar(aes(y = Number_of_Deportees, fill = "Number of Deportees"), stat = "identity") +
-  geom_bar(aes(y = Number_of_Victims, fill = "Number of Victims"), stat = "identity") +
-  ylab("Count") +
-  ggtitle("Number of Deportees and Victims by Nationality/Category") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  scale_fill_manual(values = c("Number of Deportees" = "blue", "Number of Victims" = "red"), 
-                    guide = guide_legend(title = "Category"))
-
-# Plot 2: Nationality/Category vs. Percentage of Murdered within the Category/Nationality
-ggplot(data, aes(x = Nationality_Category, y = Percentage_of_Murdered)) +
-  geom_bar(stat = "identity", fill = "skyblue") +
-  ylab("Percentage") +
-  ggtitle("Percentage of Murdered within Nationality/Category") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
-# Plot 3: Nationality/Category vs. Percentage of All Victims
-ggplot(data, aes(x = Nationality_Category, y = Percentage_of_All_Victims)) +
-  geom_bar(stat = "identity", fill = "lightgreen") +
-  ylab("Percentage") +
-  ggtitle("Percentage of All Victims by Nationality/Category") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
-```
-
-
-```{r}
-#| label: fig-bills
-#| fig-cap: Bills of penguins
-#| echo: false
-
-ggplot(penguins, aes(x = island, fill = species)) +
-  geom_bar(alpha = 0.8) +
-  scale_fill_manual(values = c("darkorange","purple","cyan4"),
-                    guide = "none") +
-  theme_minimal() +
-  facet_wrap(~species, ncol = 1) +
-  coord_flip()
-```
-
-Talk more about it.
-
-And also planes (@fig-planes). (You can change the height and width, but don't worry about doing that until you have finished every other aspect of the paper - Quarto will try to make it look nice and the defaults usually work well once you have enough text.)
-
-```{r}
-#| label: fig-planes
-#| fig-cap: Relationship between wing length and width
-#| echo: false
-#| warning: false
-#| message: false
-
-analysis_data <- read_csv(here::here("data/analysis_data/analysis_data.csv"))
-
-analysis_data |> 
-  ggplot(aes(x = width, y = length)) +
-  geom_point(alpha = 0.8) +
-  theme_minimal() +
-  labs(x = "Wing width (mm)",
-       y = "Wing length (mm)")
-```
-
-Talk way more about it. 
-
-
-
-# Model
-
-The goal of our modelling strategy is twofold. Firstly,...
-
-Here we briefly describe the Bayesian analysis model used to investigate... Background details and diagnostics are included in [Appendix -@sec-model-details].
-
-## Model set-up
-
-Define $y_i$ as the number of seconds that the plane remained aloft. Then $\beta_i$ is the wing width and $\gamma_i$ is the wing length, both measured in millimeters.  
-
-\begin{align} 
-y_i|\mu_i, \sigma &\sim \mbox{Normal}(\mu_i, \sigma) \\
-\mu_i &= \alpha + \beta_i + \gamma_i\\
-\alpha &\sim \mbox{Normal}(0, 2.5) \\
-\beta &\sim \mbox{Normal}(0, 2.5) \\
-\gamma &\sim \mbox{Normal}(0, 2.5) \\
-\sigma &\sim \mbox{Exponential}(1)
-\end{align}
-
-We run the model in R [@citeR] using the `rstanarm` package of @rstanarm. We use the default priors from `rstanarm`.
-
-
-### Model justification
-
-We expect a positive relationship between the size of the wings and time spent aloft. In particular...
-
-We can use maths by including latex between dollar signs, for instance $\theta$.
-
-
-# Results
-
-Our results are summarized in @tbl-modelresults.
-
-```{r}
-#| echo: false
-#| eval: true
-#| warning: false
-#| message: false
-
-library(rstanarm)
-
-first_model <-
-  readRDS(file = here::here("models/first_model.rds"))
-```
-
-```{r}
-#| echo: false
-#| eval: true
-#| label: tbl-modelresults
-#| tbl-cap: "Explanatory models of flight time based on wing width and wing length"
-#| warning: false
-
-modelsummary::modelsummary(
-  list(
-    "First model" = first_model
-  ),
-  statistic = "mad",
-  fmt = 2
-)
-```
-
-
-
-
-# Discussion
-
-## First discussion point {#sec-first-point}
-
-If my paper were 10 pages, then should be be at least 2.5 pages. The discussion is a chance to show off what you know and what you learnt from all this. 
-
-## Second discussion point
-
-## Third discussion point
-
-## Weaknesses and next steps
-
-Weaknesses and next steps should also be included.
-
 \newpage
-
-\appendix
-
-# Appendix {-}
-
-
-# Additional data details
-
-# Model details {#sec-model-details}
-
-## Posterior predictive check
-
-In @fig-ppcheckandposteriorvsprior-1 we implement a posterior predictive check. This shows...
-
-In @fig-ppcheckandposteriorvsprior-2 we compare the posterior with the prior. This shows... 
-
-```{r}
-#| eval: true
-#| echo: false
-#| message: false
-#| warning: false
-#| label: fig-ppcheckandposteriorvsprior
-#| layout-ncol: 2
-#| fig-cap: "Examining how the model fits, and is affected by, the data"
-#| fig-subcap: ["Posterior prediction check", "Comparing the posterior with the prior"]
-
-pp_check(first_model) +
-  theme_classic() +
-  theme(legend.position = "bottom")
-
-posterior_vs_prior(first_model) +
-  theme_minimal() +
-  scale_color_brewer(palette = "Set1") +
-  theme(legend.position = "bottom") +
-  coord_flip()
-```
-
-## Diagnostics
-
-@fig-stanareyouokay-1 is a trace plot. It shows... This suggests...
-
-@fig-stanareyouokay-2 is a Rhat plot. It shows... This suggests...
-
-```{r}
-#| echo: false
-#| eval: true
-#| message: false
-#| warning: false
-#| label: fig-stanareyouokay
-#| fig-cap: "Checking the convergence of the MCMC algorithm"
-#| fig-subcap: ["Trace plot", "Rhat plot"]
-#| layout-ncol: 2
-
-plot(first_model, "trace")
-
-plot(first_model, "rhat")
-```
-
 
 
 \newpage

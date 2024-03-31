@@ -1,0 +1,12 @@
+name: holocaust
+title: holocaust
+username: ddmje2-emily-su
+account: ddmje2-emily-su
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 11627768
+bundleId: 8438222
+url: https://ddmje2-emily-su.shinyapps.io/holocaust/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
